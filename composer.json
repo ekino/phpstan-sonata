@@ -1,5 +1,5 @@
 {
-    "name": "phpstan/sonata",
+    "name": "phpstan/phpstan-sonata",
     "description": "PHPStan extension for Sonata",
     "license": "proprietary",
     "type": "project",
