@@ -1,0 +1,5 @@
+services:
+	-
+		class: PHPStan\Type\ProxyQueryDynamicReturnTypeExtension
+		tags:
+			- phpstan.broker.methodsClassReflectionExtension
