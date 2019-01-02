@@ -1,8 +1,8 @@
 {
-    "name": "phpstan/phpstan-sonata",
+    "name": "ekino/phpstan-sonata",
     "description": "PHPStan extension for Sonata",
     "license": "proprietary",
-    "type": "project",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "PHPStan\\": "src"
