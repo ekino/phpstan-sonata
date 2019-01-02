@@ -1,8 +1,5 @@
 # PHPStan Sonata
 
-[![pipeline status](https://gitlab.ekino.com/php-labs/phpstan/phpstan-sonata/badges/master/pipeline.svg)](https://gitlab.ekino.com/php-labs/phpstan/phpstan-sonata/commits/master)
-[![coverage report](https://gitlab.ekino.com/php-labs/phpstan/phpstan-sonata/badges/master/coverage.svg)](https://gitlab.ekino.com/php-labs/phpstan/phpstan-sonata/commits/master)
-
 ## Usage
 
 To use this extension, require it using [Composer](https://getcomposer.org/):
