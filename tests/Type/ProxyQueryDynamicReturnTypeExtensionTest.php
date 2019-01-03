@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the phpstan/sonata project.
+ * This file is part of the ekino/phpstan-sonata project.
  *
  * (c) Ekino
  *
@@ -9,20 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\PHPStan\Type;
+namespace Tests\Ekino\PHPStanSonata\Type;
 
 use Doctrine\ORM\QueryBuilder;
+use Ekino\PHPStanSonata\Type\ProxyQueryDynamicReturnTypeExtension;
 use PHPStan\Broker\Broker;
 use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
-use PHPStan\Type\ProxyQueryDynamicReturnTypeExtension;
 use PHPUnit\Framework\TestCase;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
- * @author Rémi Marseille <marseille@ekino.com>
+ * @author Rémi Marseille <remi.marseille@ekino.com>
  */
 class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
 {

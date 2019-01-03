@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the phpstan/sonata project.
+ * This file is part of the ekino/phpstan-sonata project.
  *
  * (c) Ekino
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPStan\Type;
+namespace Ekino\PHPStanSonata\Type;
 
 use Doctrine\ORM\QueryBuilder;
 use PHPStan\Broker\Broker;
@@ -20,7 +20,7 @@ use PHPStan\Reflection\MethodsClassReflectionExtension;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
- * @author Rémi Marseille <marseille@ekino.com>
+ * @author Rémi Marseille <remi.marseille@ekino.com>
  */
 class ProxyQueryDynamicReturnTypeExtension implements MethodsClassReflectionExtension, BrokerAwareExtension
 {

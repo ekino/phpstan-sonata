@@ -1,22 +1,17 @@
 {
     "name": "ekino/phpstan-sonata",
-    "description": "PHPStan extension for Sonata",
-    "license": "proprietary",
     "type": "library",
-    "autoload": {
-        "psr-4": {
-            "PHPStan\\": "src"
+    "description": "PHPStan extension for Sonata",
+    "keywords": ["PHPStan", "Sonata Project"],
+    "homepage": "https://github.com/ekino/phpstan-sonata",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rémi Marseille",
+            "email": "remi.marseille@ekino.com",
+            "homepage": "https://www.ekino.com"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\PHPStan\\": "tests"
-        }
-    },
-
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-
+    ],
     "require": {
         "php":                                      "^7.1",
         "phpstan/phpstan":                          "^0.10",
@@ -28,6 +23,18 @@
         "friendsofphp/php-cs-fixer":   "^2.12",
         "sensiolabs/security-checker": "^4.1"
     },
+    "autoload": {
+        "psr-4": {
+            "Ekino\\PHPStanSonata\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Ekino\\PHPStanSonata\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
 
     "extra": {
         "branch-alias": {
