@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the phpstan/sonata project.
+ * This file is part of the ekino/phpstan-sonata project.
  *
  * (c) Ekino
  *
@@ -10,7 +10,7 @@
  */
 
 $header = <<<EOF
-This file is part of the phpstan/sonata project.
+This file is part of the ekino/phpstan-sonata project.
 
 (c) Ekino
 

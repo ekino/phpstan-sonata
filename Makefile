@@ -16,7 +16,7 @@ app-cs-fix: ## to fix files that need to be fixed
 	vendor/bin/php-cs-fixer fix --verbose
 
 app-install: ## to install app
-	composer install --prefer-dist
+	COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist
 
 app-security-check: ## to check if any security issues in the PHP dependencies
 	vendor/bin/security-checker security:check --end-point=http://security.sensiolabs.org/check_lock

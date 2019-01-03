@@ -1,5 +1,5 @@
 services:
 	-
-		class: PHPStan\Type\ProxyQueryDynamicReturnTypeExtension
+		class: Ekino\PHPStanSonata\Type\ProxyQueryDynamicReturnTypeExtension
 		tags:
 			- phpstan.broker.methodsClassReflectionExtension
