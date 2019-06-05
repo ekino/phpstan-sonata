@@ -21,6 +21,8 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as AdminProxyQueryInterface;
+use Sonata\DatagridBundle\ProxyQuery\ProxyQueryInterface as DatagridProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
@@ -36,7 +38,7 @@ class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
     /**
      * Initializes the tests.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new ProxyQueryDynamicReturnTypeExtension();
     }
@@ -44,65 +46,56 @@ class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
     /**
      * Asserts the extension implements the expected interfaces.
      */
-    public function testImplements()
+    public function testImplements(): void
     {
         $this->assertInstanceOf(MethodsClassReflectionExtension::class, $this->extension);
         $this->assertInstanceOf(BrokerAwareExtension::class, $this->extension);
     }
 
     /**
-     * Asserts hasMethod returns FALSE with non-handled class.
+     * @param bool   $expected
+     * @param string $className
+     * @param bool   $validMethod
+     * @param string $methodName
+     * @param int    $hasMethodCallCount
+     *
+     * @dataProvider hasMethodDataProvider
      */
-    public function testHasMethodWithWrongClass()
+    public function testHasMethod(bool $expected, string $className, bool $validMethod, string $methodName, int $hasMethodCallCount): void
     {
         $classReflection = $this->createMock(ClassReflection::class);
-        $classReflection->expects($this->once())->method('getName')->willReturn('Foo\Bar');
-
-        $this->assertFalse($this->extension->hasMethod($classReflection, 'leftJoin'));
-    }
-
-    /**
-     * Asserts hasMethod returns FALSE with non-handled method.
-     */
-    public function testHasMethodWithWrongMethod()
-    {
-        $classReflection = $this->createMock(ClassReflection::class);
-        $classReflection->expects($this->once())->method('getName')->willReturn(ProxyQuery::class);
+        $classReflection->expects($this->any())->method('getName')->willReturn($className);
 
         $dummyClassReflection = $this->createMock(ClassReflection::class);
-        $dummyClassReflection->expects($this->once())->method('hasMethod')->willReturn(false);
+        $dummyClassReflection->expects($this->exactly($hasMethodCallCount))->method('hasMethod')->willReturn($validMethod);
 
         $broker = $this->createMock(Broker::class);
-        $broker->expects($this->once())->method('getClass')->with($this->equalTo(QueryBuilder::class))->willReturn($dummyClassReflection);
+        $broker->expects($this->exactly($hasMethodCallCount))->method('getClass')->with($this->equalTo(QueryBuilder::class))->willReturn($dummyClassReflection);
 
         $this->extension->setBroker($broker);
 
-        $this->assertFalse($this->extension->hasMethod($classReflection, 'foo'));
+        $this->assertSame($expected, $this->extension->hasMethod($classReflection, $methodName));
     }
 
     /**
-     * Asserts hasMethod returns TRUE with valid arguments.
+     * @return \Generator
      */
-    public function testHasMethodWithValidArgs()
+    public function hasMethodDataProvider(): \Generator
     {
-        $classReflection = $this->createMock(ClassReflection::class);
-        $classReflection->expects($this->once())->method('getName')->willReturn(ProxyQuery::class);
-
-        $dummyClassReflection = $this->createMock(ClassReflection::class);
-        $dummyClassReflection->expects($this->once())->method('hasMethod')->willReturn(true);
-
-        $broker = $this->createMock(Broker::class);
-        $broker->expects($this->once())->method('getClass')->with($this->equalTo(QueryBuilder::class))->willReturn($dummyClassReflection);
-
-        $this->extension->setBroker($broker);
-
-        $this->assertTrue($this->extension->hasMethod($classReflection, 'leftJoin'));
+        yield 'wrong class & method' => [false, 'Foo\Bar', true, 'foo', 0];
+        yield 'wrong class & valid method' => [false, 'Foo\Bar', true, 'leftJoin', 0];
+        yield 'proxy query & valid method' => [true, ProxyQuery::class, true, 'leftJoin', 1];
+        yield 'proxy query & wrong method' => [false, ProxyQuery::class, false, 'foo', 1];
+        yield 'admin proxy query & valid method' => [true, AdminProxyQueryInterface::class, true, 'leftJoin', 1];
+        yield 'admin proxy query & wrong method' => [false, AdminProxyQueryInterface::class, false, 'foo', 1];
+        yield 'datagrid proxy query & valid method' => [true, DatagridProxyQueryInterface::class, true, 'leftJoin', 1];
+        yield 'datagrid proxy query & wrong method' => [false, DatagridProxyQueryInterface::class, false, 'foo', 1];
     }
 
     /**
      * Tests getMethod.
      */
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $methodReflection = $this->createMock(MethodReflection::class);
 
