@@ -3,3 +3,7 @@ services:
 		class: Ekino\PHPStanSonata\Type\ProxyQueryDynamicReturnTypeExtension
 		tags:
 			- phpstan.broker.methodsClassReflectionExtension
+	-
+		class: Ekino\PHPStanSonata\Type\ObjectRepositoryDynamicReturnTypeExtension
+		tags:
+			- phpstan.broker.dynamicMethodReturnTypeExtension

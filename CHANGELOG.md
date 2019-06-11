@@ -9,3 +9,4 @@ master
 * Uprgade phpstan & phpstan-phpunit to ^0.11
 * Move phpstan-phpunit to dev dependencies
 * Improve detection of QueryBuilder methods
+* Improve detection of ObjectRepository magic methods
