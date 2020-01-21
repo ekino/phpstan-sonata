@@ -115,7 +115,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<array>
      */
     public function isMethodSupportedDataProvider(): \Generator
     {
@@ -180,7 +180,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<array>
      */
     public function getTypeFromMethodCallWithDynamicClassNameTypeDataProvider(): \Generator
     {
@@ -208,7 +208,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<array>
      */
     public function getTypeFromMethodCallWithObjectRepositoryTypeDataProvider(): \Generator
     {

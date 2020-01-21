@@ -78,7 +78,7 @@ class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @return \Generator
+     * @return \Generator<array>
      */
     public function hasMethodDataProvider(): \Generator
     {
