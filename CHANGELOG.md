@@ -4,6 +4,11 @@ CHANGELOG
 master
 ------
 
+* todo...
+
+v0.2.0
+------
+
 * Fix tests by adding nikic/php-parser as a required dev dependency
 * Upgrade phpstan & phpstan-phpunit to ^0.12
 
