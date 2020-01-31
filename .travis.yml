@@ -11,6 +11,7 @@ php:
 
 env:
   global:
+    - COMPOSER_MEMORY_LIMIT=-1
     - TARGET=ci
 
 dist: trusty
