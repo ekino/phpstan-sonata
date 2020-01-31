@@ -13,5 +13,4 @@ if [ "${COMPOSER_FLAGS}" = '--prefer-lowest' ]; then
     composer update --prefer-dist --no-interaction --prefer-stable --quiet
 fi
 
-composer update --prefer-dist --no-interaction --prefer-stable ${COMPOSER_FLAGS}
-
+COMPOSER_MEMORY_LIMIT=-1 composer update --prefer-dist --no-interaction --prefer-stable ${COMPOSER_FLAGS}
