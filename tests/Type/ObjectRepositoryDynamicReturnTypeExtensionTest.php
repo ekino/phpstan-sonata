@@ -189,7 +189,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @param string $expected
+     * @param class-string<object> $expected
      * @param string $methodName
      *
      * @dataProvider getTypeFromMethodCallWithObjectRepositoryTypeDataProvider

@@ -14,4 +14,3 @@ if [ "${COMPOSER_FLAGS}" = '--prefer-lowest' ]; then
 fi
 
 composer update --prefer-dist --no-interaction --prefer-stable ${COMPOSER_FLAGS}
-

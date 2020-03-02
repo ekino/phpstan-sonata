@@ -22,7 +22,7 @@ app-security-check: ## to check if any security issues in the PHP dependencies
 	vendor/bin/security-checker security:check
 
 app-static-analysis: ## to run static analysis
-	php -dmemory_limit=-1 vendor/bin/phpstan analyze src tests -l 7
+	php -dmemory_limit=-1 vendor/bin/phpstan analyze src tests -l 8
 
 app-test: ## to run unit tests
 	vendor/bin/phpunit
