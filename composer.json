@@ -1,6 +1,6 @@
 {
     "name": "ekino/phpstan-sonata",
-    "type": "library",
+    "type": "phpstan-extension",
     "description": "PHPStan extension for Sonata",
     "keywords": ["PHPStan", "Sonata Project"],
     "homepage": "https://github.com/ekino/phpstan-sonata",
@@ -40,6 +40,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "0.10-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
         }
     }
 }

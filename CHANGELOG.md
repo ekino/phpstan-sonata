@@ -5,6 +5,7 @@ master
 ------
 
 * Drop support for PHP 7.1
+* Add support to PHPStan extension installer
 
 v0.2.0
 ------
