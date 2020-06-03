@@ -15,6 +15,7 @@
     "require": {
         "php":                                      "^7.2",
         "phpstan/phpstan":                          "^0.12",
+        "sonata-project/datagrid-bundle":           "^3.0",
         "sonata-project/doctrine-orm-admin-bundle": "^3.6"
     },
     "require-dev": {
