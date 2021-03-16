@@ -7,6 +7,7 @@ master
 * Drop support for PHP 7.1
 * Add support to PHPStan extension installer
 * Add sonata-project/datagrid-bundle as direct dependency
+* Switch to the new security checker
 
 v0.2.0
 ------
