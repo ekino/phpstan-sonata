@@ -22,8 +22,7 @@
         "nikic/php-parser":            "^4.3",
         "phpunit/phpunit":             "^8.5",
         "phpstan/phpstan-phpunit":     "^0.12",
-        "friendsofphp/php-cs-fixer":   "^2.12",
-        "sensiolabs/security-checker": "^6.0"
+        "friendsofphp/php-cs-fixer":   "^2.12"
     },
     "autoload": {
         "psr-4": {
