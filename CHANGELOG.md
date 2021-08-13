@@ -9,6 +9,7 @@ master
 * Add sonata-project/datagrid-bundle as direct dependency
 * Switch to the new security checker
 * Migrate from Travis to GitHub Actions
+* Fix deprecated PHP-CS rules
 
 v0.2.0
 ------
