@@ -10,6 +10,7 @@ master
 * Switch to the new security checker
 * Migrate from Travis to GitHub Actions
 * Fix deprecated PHP-CS rules
+* Allow PHP 8.0
 
 v0.2.0
 ------
