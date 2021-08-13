@@ -8,6 +8,7 @@ master
 * Add support to PHPStan extension installer
 * Add sonata-project/datagrid-bundle as direct dependency
 * Switch to the new security checker
+* Migrate from Travis to GitHub Actions
 
 v0.2.0
 ------
