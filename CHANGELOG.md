@@ -16,6 +16,7 @@ v0.3.0
 * Migrate from Travis to GitHub Actions
 * Fix deprecated PHP-CS rules
 * Allow PHP 8.0
+* Upgrade friendsofphp/php-cs-fixer
 
 v0.2.0
 ------
