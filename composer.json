@@ -13,16 +13,16 @@
         }
     ],
     "require": {
-        "php":                                      "^7.2 || ^8.0",
-        "phpstan/phpstan":                          "^0.12",
-        "sonata-project/datagrid-bundle":           "^3.0",
+        "php": "^7.3 || ^8.0",
+        "phpstan/phpstan": "^1.0",
+        "sonata-project/datagrid-bundle": "^3.0",
         "sonata-project/doctrine-orm-admin-bundle": "^3.6"
     },
     "require-dev": {
-        "nikic/php-parser":            "^4.3",
-        "phpunit/phpunit":             "^8.5",
-        "phpstan/phpstan-phpunit":     "^0.12",
-        "friendsofphp/php-cs-fixer":   "^3.0"
+        "nikic/php-parser": "^4.3",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -39,7 +39,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "0.10-dev"
+            "dev-master": "1.0-dev"
         },
         "phpstan": {
             "includes": [
