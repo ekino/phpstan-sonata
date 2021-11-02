@@ -15,10 +15,9 @@ namespace Ekino\PHPStanSonata\Type;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Broker\Broker;
-use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
@@ -34,19 +33,16 @@ use Sonata\Doctrine\Model\BaseManager;
  *
  * @author Benoit Maziere <benoit.maziere@ekino.com>
  */
-class ObjectRepositoryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, BrokerAwareExtension
+class ObjectRepositoryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     /**
-     * @var Broker
+     * @var ReflectionProvider
      */
-    private $broker;
+    private $reflectionProvider;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setBroker(Broker $broker): void
+    public function __construct(ReflectionProvider $reflectionProvider)
     {
-        $this->broker = $broker;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -87,8 +83,8 @@ class ObjectRepositoryDynamicReturnTypeExtension implements DynamicMethodReturnT
 
         $methodName = $methodReflection->getName();
 
-        if ($this->broker->hasClass($calledOnType->getClassName())) {
-            $repositoryClassReflection = $this->broker->getClass($calledOnType->getClassName());
+        if ($this->reflectionProvider->hasClass($calledOnType->getClassName())) {
+            $repositoryClassReflection = $this->reflectionProvider->getClass($calledOnType->getClassName());
             if (
                 (
                     (
@@ -103,7 +99,7 @@ class ObjectRepositoryDynamicReturnTypeExtension implements DynamicMethodReturnT
             ) {
                 return ParametersAcceptorSelector::selectFromArgs(
                     $scope,
-                    $methodCall->args,
+                    $methodCall->getArgs(),
                     $repositoryClassReflection->getNativeMethod($methodName)->getVariants()
                 )->getReturnType();
             }

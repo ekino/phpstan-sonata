@@ -18,9 +18,9 @@ use Ekino\PHPStanSonata\Type\ObjectRepositoryType;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Broker\Broker;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Reflection\TrivialParametersAcceptor;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\MixedType;
@@ -42,9 +42,9 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     private $extension;
 
     /**
-     * @var MockObject|Broker
+     * @var MockObject|ReflectionProvider
      */
-    private $broker;
+    private $reflectionProvider;
 
     /**
      * @var MockObject|MethodReflection
@@ -71,26 +71,14 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->extension        = new ObjectRepositoryDynamicReturnTypeExtension();
-        $this->broker           = $this->createMock(Broker::class);
-        $this->methodReflection = $this->createMock(MethodReflection::class);
-        $this->methodCall       = $this->createMock(MethodCall::class);
-        $this->scope            = $this->createMock(Scope::class);
-        $this->expr             = $this->createMock(Expr::class);
-        $this->methodCall->var  = $this->expr;
-        $this->methodCall->args = [];
-
-        $this->extension->setBroker($this->broker);
-    }
-
-    /**
-     * Test setBroker method.
-     */
-    public function testSetBroker(): void
-    {
-        $property = new \ReflectionProperty($this->extension, 'broker');
-        $property->setAccessible(true);
-        $this->assertInstanceOf(Broker::class, $property->getValue($this->extension));
+        $this->reflectionProvider = $this->createMock(ReflectionProvider::class);
+        $this->extension          = new ObjectRepositoryDynamicReturnTypeExtension($this->reflectionProvider);
+        $this->methodReflection   = $this->createMock(MethodReflection::class);
+        $this->methodCall         = $this->createMock(MethodCall::class);
+        $this->scope              = $this->createMock(Scope::class);
+        $this->expr               = $this->createMock(Expr::class);
+        $this->methodCall->var    = $this->expr;
+        $this->methodCall->args   = [];
     }
 
     /**
@@ -115,7 +103,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     }
 
     /**
-     * @return \Generator<array>
+     * @return \Generator<array<mixed>>
      */
     public function isMethodSupportedDataProvider(): \Generator
     {
@@ -167,20 +155,20 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
         $this->methodReflection->expects($this->once())->method('getName')->willReturn($methodName);
 
-        $returnedMethodReflexion = $this->createMock(MethodReflection::class);
-        $returnedMethodReflexion->expects($this->once())->method('getVariants')->willReturn([new TrivialParametersAcceptor()]);
+        $returnedMethodReflection = $this->createMock(MethodReflection::class);
+        $returnedMethodReflection->expects($this->once())->method('getVariants')->willReturn([new TrivialParametersAcceptor()]);
 
-        $classReflexion = $this->createMock(ClassReflection::class);
-        $classReflexion->expects($this->once())->method('hasNativeMethod')->with($methodName)->willReturn(true);
-        $classReflexion->expects($this->once())->method('getNativeMethod')->with($methodName)->willReturn($returnedMethodReflexion);
-        $this->broker->expects($this->once())->method('hasClass')->with('Foo')->willReturn(true);
-        $this->broker->expects($this->once())->method('getClass')->with('Foo')->willReturn($classReflexion);
+        $classReflection = $this->createMock(ClassReflection::class);
+        $classReflection->expects($this->once())->method('hasNativeMethod')->with($methodName)->willReturn(true);
+        $classReflection->expects($this->once())->method('getNativeMethod')->with($methodName)->willReturn($returnedMethodReflection);
+        $this->reflectionProvider->expects($this->once())->method('hasClass')->with('Foo')->willReturn(true);
+        $this->reflectionProvider->expects($this->once())->method('getClass')->with('Foo')->willReturn($classReflection);
 
         $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
     }
 
     /**
-     * @return \Generator<array>
+     * @return \Generator<array<string>>
      */
     public function getTypeFromMethodCallWithDynamicClassNameTypeDataProvider(): \Generator
     {
@@ -201,14 +189,13 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
         $this->methodReflection->expects($this->once())->method('getName')->willReturn($methodName);
 
-        $classReflexion = $this->createMock(ClassReflection::class);
-        $this->broker->expects($this->once())->method('hasClass')->with('Foo')->willReturn(false);
+        $this->reflectionProvider->expects($this->once())->method('hasClass')->with('Foo')->willReturn(false);
 
         $this->assertInstanceOf($expected, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
     }
 
     /**
-     * @return \Generator<array>
+     * @return \Generator<array<string>>
      */
     public function getTypeFromMethodCallWithObjectRepositoryTypeDataProvider(): \Generator
     {
