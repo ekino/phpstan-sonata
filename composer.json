@@ -2,7 +2,7 @@
     "name": "ekino/phpstan-sonata",
     "type": "phpstan-extension",
     "description": "PHPStan extension for Sonata",
-    "keywords": ["PHPStan", "Sonata Project"],
+    "keywords": ["PHPStan", "Sonata Project", "static analysis"],
     "homepage": "https://github.com/ekino/phpstan-sonata",
     "license": "MIT",
     "authors": [

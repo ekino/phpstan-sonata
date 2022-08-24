@@ -4,7 +4,7 @@ CHANGELOG
 master
 ------
 
-* todo...
+* Add Composer keyword for asking user to add this package to require-dev instead of require
 
 v1.0.0
 ------
