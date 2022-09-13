@@ -19,7 +19,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Reflection\TrivialParametersAcceptor;
 use PHPStan\Type\ArrayType;
@@ -47,9 +47,9 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
     private $reflectionProvider;
 
     /**
-     * @var MockObject|MethodReflection
+     * @var MockObject|ExtendedMethodReflection
      */
-    private $methodReflection;
+    private $extendedMethodReflection;
 
     /**
      * @var MockObject|MethodCall
@@ -71,14 +71,14 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->reflectionProvider = $this->createMock(ReflectionProvider::class);
-        $this->extension          = new ObjectRepositoryDynamicReturnTypeExtension($this->reflectionProvider);
-        $this->methodReflection   = $this->createMock(MethodReflection::class);
-        $this->methodCall         = $this->createMock(MethodCall::class);
-        $this->scope              = $this->createMock(Scope::class);
-        $this->expr               = $this->createMock(Expr::class);
-        $this->methodCall->var    = $this->expr;
-        $this->methodCall->args   = [];
+        $this->reflectionProvider       = $this->createMock(ReflectionProvider::class);
+        $this->extension                = new ObjectRepositoryDynamicReturnTypeExtension($this->reflectionProvider);
+        $this->extendedMethodReflection = $this->createMock(ExtendedMethodReflection::class);
+        $this->methodCall               = $this->createMock(MethodCall::class);
+        $this->scope                    = $this->createMock(Scope::class);
+        $this->expr                     = $this->createMock(Expr::class);
+        $this->methodCall->var          = $this->expr;
+        $this->methodCall->args         = [];
     }
 
     /**
@@ -96,10 +96,9 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
      */
     public function testIsMethodSupported(bool $expected, string $methodName): void
     {
-        $methodReflection = $this->createMock(MethodReflection::class);
-        $methodReflection->expects($this->once())->method('getName')->willReturn($methodName);
+        $this->extendedMethodReflection->expects($this->once())->method('getName')->willReturn($methodName);
 
-        $this->assertSame($expected, $this->extension->isMethodSupported($methodReflection));
+        $this->assertSame($expected, $this->extension->isMethodSupported($this->extendedMethodReflection));
     }
 
     /**
@@ -129,7 +128,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $type = $this->createMock(Type::class);
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
 
-        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
+        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->extendedMethodReflection, $this->methodCall, $this->scope));
     }
 
     /**
@@ -140,7 +139,7 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $type = $this->createMock(TypeWithClassName::class);
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
 
-        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
+        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->extendedMethodReflection, $this->methodCall, $this->scope));
     }
 
     /**
@@ -153,18 +152,18 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $type = $this->createMock(TypeWithClassName::class);
         $type->expects($this->exactly(2))->method('getClassName')->willReturn('Foo');
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
-        $this->methodReflection->expects($this->once())->method('getName')->willReturn($methodName);
+        $this->extendedMethodReflection->expects($this->once())->method('getName')->willReturn($methodName);
 
-        $returnedMethodReflection = $this->createMock(MethodReflection::class);
-        $returnedMethodReflection->expects($this->once())->method('getVariants')->willReturn([new TrivialParametersAcceptor()]);
+        $returnedExtendedMethodReflection = $this->createMock(ExtendedMethodReflection::class);
+        $returnedExtendedMethodReflection->expects($this->once())->method('getVariants')->willReturn([new TrivialParametersAcceptor()]);
 
         $classReflection = $this->createMock(ClassReflection::class);
         $classReflection->expects($this->once())->method('hasNativeMethod')->with($methodName)->willReturn(true);
-        $classReflection->expects($this->once())->method('getNativeMethod')->with($methodName)->willReturn($returnedMethodReflection);
+        $classReflection->expects($this->once())->method('getNativeMethod')->with($methodName)->willReturn($returnedExtendedMethodReflection);
         $this->reflectionProvider->expects($this->once())->method('hasClass')->with('Foo')->willReturn(true);
         $this->reflectionProvider->expects($this->once())->method('getClass')->with('Foo')->willReturn($classReflection);
 
-        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
+        $this->assertInstanceOf(MixedType::class, $this->extension->getTypeFromMethodCall($this->extendedMethodReflection, $this->methodCall, $this->scope));
     }
 
     /**
@@ -187,11 +186,11 @@ class ObjectRepositoryDynamicReturnTypeExtensionTest extends TestCase
         $type = $this->createMock(ObjectRepositoryType::class);
         $type->expects($this->once())->method('getClassName')->willReturn('Foo');
         $this->scope->expects($this->once())->method('getType')->with($this->expr)->willReturn($type);
-        $this->methodReflection->expects($this->once())->method('getName')->willReturn($methodName);
+        $this->extendedMethodReflection->expects($this->once())->method('getName')->willReturn($methodName);
 
         $this->reflectionProvider->expects($this->once())->method('hasClass')->with('Foo')->willReturn(false);
 
-        $this->assertInstanceOf($expected, $this->extension->getTypeFromMethodCall($this->methodReflection, $this->methodCall, $this->scope));
+        $this->assertInstanceOf($expected, $this->extension->getTypeFromMethodCall($this->extendedMethodReflection, $this->methodCall, $this->scope));
     }
 
     /**

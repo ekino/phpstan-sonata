@@ -18,7 +18,7 @@ use Ekino\PHPStanSonata\Type\ProxyQueryDynamicReturnTypeExtension;
 use PHPStan\Broker\Broker;
 use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as AdminProxyQueryInterface;
@@ -97,16 +97,16 @@ class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
      */
     public function testGetMethod(): void
     {
-        $methodReflection = $this->createMock(MethodReflection::class);
+        $extendedMethodReflection = $this->createMock(ExtendedMethodReflection::class);
 
         $dummyClassReflection = $this->createMock(ClassReflection::class);
-        $dummyClassReflection->expects($this->once())->method('getNativeMethod')->willReturn($methodReflection);
+        $dummyClassReflection->expects($this->once())->method('getNativeMethod')->willReturn($extendedMethodReflection);
 
         $broker = $this->createMock(Broker::class);
         $broker->expects($this->once())->method('getClass')->with($this->equalTo(QueryBuilder::class))->willReturn($dummyClassReflection);
 
         $this->extension->setBroker($broker);
 
-        $this->assertSame($methodReflection, $this->extension->getMethod($this->createMock(ClassReflection::class), 'leftJoin'));
+        $this->assertSame($extendedMethodReflection, $this->extension->getMethod($this->createMock(ClassReflection::class), 'leftJoin'));
     }
 }
