@@ -21,8 +21,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as AdminProxyQueryInterface;
-use Sonata\DatagridBundle\ProxyQuery\ProxyQueryInterface as DatagridProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
@@ -86,10 +85,8 @@ class ProxyQueryDynamicReturnTypeExtensionTest extends TestCase
         yield 'wrong class & valid method' => [false, 'Foo\Bar', true, 'leftJoin', 0];
         yield 'proxy query & valid method' => [true, ProxyQuery::class, true, 'leftJoin', 1];
         yield 'proxy query & wrong method' => [false, ProxyQuery::class, false, 'foo', 1];
-        yield 'admin proxy query & valid method' => [true, AdminProxyQueryInterface::class, true, 'leftJoin', 1];
-        yield 'admin proxy query & wrong method' => [false, AdminProxyQueryInterface::class, false, 'foo', 1];
-        yield 'datagrid proxy query & valid method' => [true, DatagridProxyQueryInterface::class, true, 'leftJoin', 1];
-        yield 'datagrid proxy query & wrong method' => [false, DatagridProxyQueryInterface::class, false, 'foo', 1];
+        yield 'admin proxy query & valid method' => [true, ProxyQueryInterface::class, true, 'leftJoin', 1];
+        yield 'admin proxy query & wrong method' => [false, ProxyQueryInterface::class, false, 'foo', 1];;
     }
 
     /**

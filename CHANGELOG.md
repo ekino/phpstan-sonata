@@ -6,6 +6,7 @@ master
 
 * Add Composer keyword for asking user to add this package to require-dev instead of require
 * Fix tests by changing MethodReflection to expected ExtendedMethodRepository
+* Remove sonata-project/datagrid-bundle dependency
 
 v1.0.0
 ------
