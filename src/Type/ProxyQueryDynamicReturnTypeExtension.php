@@ -19,8 +19,7 @@ use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as AdminProxyQueryInterface;
-use Sonata\DatagridBundle\ProxyQuery\ProxyQueryInterface as DatagridProxyQueryInterface;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
 /**
@@ -46,7 +45,7 @@ class ProxyQueryDynamicReturnTypeExtension implements MethodsClassReflectionExte
      */
     public function hasMethod(ClassReflection $classReflection, string $methodName): bool
     {
-        return (\in_array($classReflection->getName(), [AdminProxyQueryInterface::class, DatagridProxyQueryInterface::class, ProxyQuery::class])
+        return (\in_array($classReflection->getName(), [ProxyQueryInterface::class, ProxyQuery::class])
             && $this->broker->getClass(QueryBuilder::class)->hasMethod($methodName));
     }
 
