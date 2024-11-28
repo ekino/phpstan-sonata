@@ -48,7 +48,7 @@ class ObjectRepositoryTypeTest extends TestCase
      */
     public function testDescribe(): void
     {
-        $verbosityLevel = $this->createMock(VerbosityLevel::class);
+        $verbosityLevel = VerbosityLevel::typeOnly();
         $this->assertSame('<Foo\entityClass>', $this->type->describe($verbosityLevel));
     }
 

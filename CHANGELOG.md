@@ -8,6 +8,7 @@ master
 * Fix tests by changing MethodReflection to expected ExtendedMethodRepository
 * Remove sonata-project/datagrid-bundle dependency
 * Bump sonata-project/doctrine-orm-admin-bundle to 4.3
+* Fix broken test due to final class in PHPStan
 
 
 v1.0.0
